@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { useAddTransaction } from '../../hooks/useAddTransaction';
+import { useGetTransaction } from '../../hooks/useGetTransaction';
 
 
 export const ExpenseTracker = () => {
     
     const {addTransaction}= useAddTransaction();
+    const {transactions}= useGetTransaction();
 
     const [description,setDescription] = useState("");
     const [transactionAmount, setTransactionAmount] = useState(0);
@@ -76,6 +78,21 @@ export const ExpenseTracker = () => {
       </div>
       <div className='transactions'>
         <h3>Transactions</h3>
+        {transactions ? (
+          <ul>
+            {transactions.map((transaction) => (
+              <li key={transaction.id}>
+                <h4>{transaction.description}</h4>
+                <p>
+                  $ {transaction.transactionAmount}.{' '}
+                  <label>{transaction.transactionType}</label>
+                </p>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>No transactions available.</p>
+        )}
       </div>
     </>
   );
